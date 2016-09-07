@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>CenturyLink Challenge</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <div>There are two REST APIs at this address:</div><br/>
+        <div>To retrieve current data use an HTML GET with this URL (if running Glassfish 4.1.1):</div>
+        <div>http://localhost:8080/CenturyLink-war/webresources/servertrack/{server name}</div><br/>
+        <div>To log a data point use an HTML POST with this URL:</div>
+        <div>http://localhost:8080/CenturyLink-war/webresources/servertrack/{server name}</div>
+        <div>and use this JSON fragment to supply logging info:</div>
+        <div>   { "servername" : "server", "cpuload" : "100.0", "ramload" : "100.0" }</div>
+    </body>
+</html>
