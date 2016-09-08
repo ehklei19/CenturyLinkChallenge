@@ -7,8 +7,6 @@ package com.mac.ehklei19;
 
 import java.io.StringReader;
 import javax.json.Json;
-import javax.json.JsonBuilderFactory;
-import javax.json.JsonObjectBuilder;
 import javax.json.stream.JsonParser;
 import javax.json.stream.JsonParser.Event;
 import javax.ws.rs.core.Context;
