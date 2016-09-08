@@ -10,6 +10,7 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.concurrent.locks.ReentrantLock;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.json.Json;
@@ -26,21 +27,30 @@ import javax.json.JsonObjectBuilder;
 @Singleton
 public class ServerTrackingBean implements ServerTrackingBeanLocal
 {
+    private static final ReentrantLock lock = new ReentrantLock();
     final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
     static HashMap<String, ServerData> trackedServers = new HashMap<>();
     
     @Override
     public void RecordLoad(String MachineName, double CPULoad, double RAMLoad)
     {
-        if (trackedServers.containsKey(MachineName))
+        lock.lock();
+        try
         {
-            trackedServers.get(MachineName).AddEntry(CPULoad, RAMLoad);
+            if (trackedServers.containsKey(MachineName))
+            {
+                trackedServers.get(MachineName).AddEntry(CPULoad, RAMLoad);
+            }
+            else
+            {
+                ServerData sd = new ServerData();
+                sd.AddEntry(CPULoad, RAMLoad);
+                trackedServers.put(MachineName, sd);
+            }
         }
-        else
+        finally
         {
-            ServerData sd = new ServerData();
-            sd.AddEntry(CPULoad, RAMLoad);
-            trackedServers.put(MachineName, sd);
+            lock.unlock();
         }
     }
     
